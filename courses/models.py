@@ -5,11 +5,10 @@ from django.db import models
 class Course(models.Model):
     title = models.CharField(max_length=200, verbose_name='Course', 
                             unique=True, help_text='Name of course')
-    describe = models.TextField(verbose_name='Describe')
-    #teacher = ForeignKey(Teacher, on_delete=models.DO_NOTHING) 
+    description = models.TextField(verbose_name='Description')
     price = models.DecimalField(max_digits=4, decimal_places=2, 
                                 verbose_name='Price')
-    duration = models.DurationField(verbose_name='Duration of course')
+    duration = models.CharField(max_length=50, verbose_name='Duration of course')
     slug = models.SlugField(max_length=50, blank=True)
 
     def __str__(self):
@@ -21,10 +20,9 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     title = models.CharField(max_length=200, verbose_name='Titel', unique=True)
-    describe = models.TextField(verbose_name='Describe')
-    #teacher = ForeignKey(Techer, on_delete=models.DO_NOTHING)
+    description = models.TextField(verbose_name='Description')
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    duration = models.DurationField(verbose_name='Duration of lesson')
+    duration = models.CharField(max_length=50, verbose_name='Duration of lesson')
     slug = models.SlugField(max_length=50, blank=True)
     
     def __str__(self):
@@ -32,13 +30,13 @@ class Lesson(models.Model):
 
 
 class Schedule(models.Model):
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    lesson = models.OneToOneField(Lesson, on_delete=models.CASCADE)
     time_lesson = models.DateTimeField(verbose_name='Time of lesson')
-    #student = models.ForeignKey(persons.Student, on_delete=models.CASCADE)
-    #teacher = models.ForeignKey(persons.Teacher, on_delete=models.CASCADE)
+    #student = models.OneToOneField(persons.Student, on_delete=models.CASCADE)
+    #teacher = models.OneToOneField(persons.Teacher, on_delete=models.CASCADE)
 
     def __str__(self):
-	    return self.time_lesson
+	    return f'{self.lesson} in {self.time_lesson}'
 
 
 class Content(models.Model):

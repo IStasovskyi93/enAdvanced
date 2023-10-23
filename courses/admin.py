@@ -6,7 +6,7 @@ File, URLVideo, Audio, Video
 # Register your models here.
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-	fields = [('title', 'price'), 'describe', 'duration', 'slug']
+	fields = [('title', 'price'), 'description', 'duration', 'slug']
 	prepopulated_fields = {'slug': ('title',)}
 
 
